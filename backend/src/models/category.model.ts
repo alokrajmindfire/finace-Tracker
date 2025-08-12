@@ -8,7 +8,7 @@ export interface ICategory extends Document {
     updatedAt?: Date;
 }
 
-const transactionSchema: Schema<ICategory> = new Schema({
+const categoriesSchema: Schema<ICategory> = new Schema({
   name: {
     type: String,
     required: [true, 'Category name is required'],
@@ -32,6 +32,6 @@ const transactionSchema: Schema<ICategory> = new Schema({
 
 
 
-export const Category: Model<ICategory> = mongoose.model<ICategory>("Category", transactionSchema);
+export const Category: Model<ICategory> = mongoose.model<ICategory>("Category", categoriesSchema);
 
 
