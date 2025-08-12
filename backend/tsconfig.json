@@ -1,9 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "nodenext",
+    "target": "es2020",
+    "module": "commonjs",
+    "sourceMap": true,
+    "strict": false,
     "outDir": "dist/",
-    "sourceMap": true
+    "rootDir": ".",
+    "baseUrl": ".",
+        "esModuleInterop": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "composite": true,
+    "types":["node"],
+    "typeRoots": ["./node_modules/@types","./types"]
   },
   "include": [
     "src/**/*.ts"
@@ -11,5 +21,9 @@
   "exclude": [
     "typings/*",
     "node_modules"
-  ]
+  ],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  },
 }
