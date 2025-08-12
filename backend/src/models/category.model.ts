@@ -9,7 +9,7 @@ export interface ICategory extends Document {
 }
 
 const transactionSchema: Schema<ICategory> = new Schema({
-   name: {
+  name: {
     type: String,
     required: [true, 'Category name is required'],
     trim: true,
@@ -20,11 +20,11 @@ const transactionSchema: Schema<ICategory> = new Schema({
     enum: ['income', 'expense'],
     lowercase: true
   },
-    userId: {
+  userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    },
+  },
 },
 {
     timestamps: true,

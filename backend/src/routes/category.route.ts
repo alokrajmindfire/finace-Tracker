@@ -1,11 +1,12 @@
 import { Router } from "express";
 
 import { verifyJWT } from "@/middleware/auth.middleware";
-import { categories } from "@/controller/category.controller";
+import { categories, addCategories } from "@/controller/category.controller";
 
 
 const router = Router()
 
-router.route("/").post(verifyJWT,categories)
+router.route("/").get(verifyJWT,categories)
+router.route("/").post(verifyJWT,addCategories)
 
 export default router
