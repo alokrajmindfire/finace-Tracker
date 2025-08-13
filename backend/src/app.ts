@@ -3,6 +3,8 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import authRoute from './routes/auth.route'
 import categoryRoute from './routes/category.route'
+import transactionsRoute from './routes/transaction.route'
+import { ApiError } from "./utils/ApiError"
 const app = express()
 
 app.use(cors({
@@ -19,6 +21,8 @@ app.use(cookieParser())
 
 app.use("/api/", authRoute)
 app.use("/api/category", categoryRoute)
-
-
+app.use("/api/transaction", transactionsRoute)
+app.use((req, res) => {
+  res.status(404).send('Page Not Found');
+});
 export { app }

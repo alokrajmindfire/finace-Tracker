@@ -4,6 +4,7 @@ import { IUser} from "../models/user.model"
 import { ApiResponse } from "../utils/ApiResponse";
 import { Request } from "express";
 import { Category } from "@/models/category.model";
+import { validateRequiredFields } from "@/utils/validateRequiredFields";
 
 
 const categories = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
@@ -17,7 +18,7 @@ const categories = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
     console.log("user",user)
 
     const categories = await Category.find({userId:user._id})
-    if (!categories) {
+    if (!categories.length) {
         throw new ApiError(404, "No Categories found")
     }
 
@@ -43,6 +44,8 @@ const addCategories = asyncHandler(async (req:Request& { user?: IUser }, res) =>
     ) {
         throw new ApiError(400, "All fields are required")
     }
+    validateRequiredFields(req.body, ["name", "type"]);
+    
     const category = await Category.create({
         name,
         type, 

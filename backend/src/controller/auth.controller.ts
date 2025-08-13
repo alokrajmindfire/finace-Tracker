@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler";
 import {ApiError} from "../utils/ApiError"
 import { User} from "../models/user.model"
 import { ApiResponse } from "../utils/ApiResponse";
+import { validateRequiredFields } from "@/utils/validateRequiredFields";
 
 
 const generateAccessTokens = async(userId:number) =>{
@@ -27,16 +28,9 @@ const registerUser = asyncHandler( async (req, res) => {
 
     const {fullName, email, password } = req.body
     console.log("email: ", {fullName, email, password });
+    validateRequiredFields(req.body, ["fullName", "email", "password"]);
 
-    if (
-        [fullName, email, password].some((field) => field?.trim() === "")
-    ) {
-        throw new ApiError(400, "All fields are required")
-    }
-
-    const existedUser = await User.findOne({
-        $or: [{ email }]
-    })
+    const existedUser = await User.findOne({email})
 
     if (existedUser) {
         throw new ApiError(409, "User with email or username already exists")
@@ -74,9 +68,7 @@ const loginUser = asyncHandler(async (req, res) =>{
     }
     
 
-    const user = await User.findOne({
-        $or: [{email}]
-    })
+    const user = await User.findOne({email})
 
     if (!user) {
         throw new ApiError(404, "User does not exist")
