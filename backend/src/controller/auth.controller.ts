@@ -4,9 +4,12 @@ import { User} from "../models/user.model"
 import { ApiResponse } from "../utils/ApiResponse";
 
 
-const generateAccessTokens = async(userId) =>{
+const generateAccessTokens = async(userId:number) =>{
     try {
         const user = await User.findById(userId)
+        if(!user){
+            throw new ApiError(404, "User does not exist")
+        }
         const accessToken = user.generateAccessToken()
 
         await user.save({ validateBeforeSave: false })
@@ -85,7 +88,7 @@ const loginUser = asyncHandler(async (req, res) =>{
     throw new ApiError(401, "Invalid user credentials")
     }
     console.log("user",user)
-   const {accessToken} = await generateAccessTokens(user._id)
+   const {accessToken} = await generateAccessTokens(user._id as number)
 
     const loggedInUser = await User.findById(user._id).select("-password")
 

@@ -1,4 +1,4 @@
-class ApiResponse<T = any> {
+class ApiResponse<T = unknown> {
     public statusCode: number;
     public data: T;
     public message: string;

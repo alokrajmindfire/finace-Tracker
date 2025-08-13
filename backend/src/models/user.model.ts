@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { ApiError } from "@/utils/ApiError";
 
 export interface IUser extends Document {
     email: string;
@@ -50,15 +51,25 @@ userSchema.methods.isPasswordCorrect = async function (password: string): Promis
 };
 
 userSchema.methods.generateAccessToken = function (): string {
+    const expiry = process.env.ACCESS_TOKEN_EXPIRY;
+    const secret = process.env.ACCESS_TOKEN_SECRET;
+
+    if (!expiry) {
+        throw new ApiError(500,"ACCESS_TOKEN_EXPIRY is not defined");
+    }
+
+    if (!secret) {
+        throw new ApiError(500,"ACCESS_TOKEN_SECRET is not defined");
+    }
     return jwt.sign(
         {
             _id: this._id,
             email: this.email,
             fullName: this.fullName,
         },
-        process.env.ACCESS_TOKEN_SECRET as string,
+        secret as string,
         {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+            expiresIn: expiry as SignOptions['expiresIn'],
         }
     );
 };

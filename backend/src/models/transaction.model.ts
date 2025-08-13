@@ -1,12 +1,12 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
 export interface ITransaction extends Document {
     amount: number;
     type: string;
-    categoryId: any;
+    categoryId: Types.ObjectId;
     description: string;
     date: Date;
-    userId: any;
+    userId: Types.ObjectId;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -31,7 +31,6 @@ const transactionSchema: Schema<ITransaction> = new Schema({
     description: {
         type: String,
         trim: true,
-        maxlength: [200, 'Description cannot exceed 200 characters']
     },
     date: {
         type: Date,
