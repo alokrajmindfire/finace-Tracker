@@ -26,6 +26,25 @@ const transactions = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
     )
 
 })
+const transaction = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
+    if (!req.user) {
+        throw new ApiError(404, "User does not exist")
+    }
+    const userId = req.user._id
+    const transaction = await Transaction.findOne({_id: req.params.id,userId})
+    if (!transaction) {
+        throw new ApiError(404, "No transactions found")
+    }
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200, 
+             transaction,
+        )
+    )
+
+})
 const addTransactions = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
     if (!req.user) {
         throw new ApiError(404, "User does not exist")
@@ -109,6 +128,7 @@ const deleteTransaction = asyncHandler(async (req: Request & { user?: IUser }, r
 
 export {
   transactions,
+  transaction,
   addTransactions,
   editTransaction,
   deleteTransaction,

@@ -23,6 +23,6 @@ app.use("/api/", authRoute)
 app.use("/api/category", categoryRoute)
 app.use("/api/transaction", transactionsRoute)
 app.use((req, res) => {
-  res.status(404).send('Page Not Found');
+  res.status(404).send('Route Not Found');
 });
 export { app }
