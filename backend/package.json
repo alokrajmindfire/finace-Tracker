@@ -1,28 +1,37 @@
 {
-  "name": "finance-tracker",
+  "name": "finace-tracker",
   "version": "1.0.0",
-  "description": "A simple finance tracker",
+  "description": "A simple finace tracker",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
-  "type": "module",
   "scripts": {
-    "build": "npm run tsc",
-    "tsc": "tsc -p tsconfig.json",
-    "dev": "tsc --watch & NODE_ENV=development nodemon dist",
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
     "lint": "tslint 'src/**/*.ts' --fix",
-    "start":"node dist"
+    "start": "node dist/src/index.js"
   },
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.1",
     "multer": "^2.0.1",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
     "nodemon": "^3.1.10",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   }
 }
