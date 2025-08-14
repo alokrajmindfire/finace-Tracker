@@ -12,7 +12,8 @@ const transactions = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
         throw new ApiError(404, "User does not exist")
     }
     const userId = req.user._id
-    const transactions = await Transaction.find({userId})
+    const transactions = await Transaction.find({userId}).populate({ path: 'categoryId',
+  select: 'name'})
     if (!transactions.length) {
         throw new ApiError(404, "No transactions found")
     }
@@ -125,6 +126,17 @@ const deleteTransaction = asyncHandler(async (req: Request & { user?: IUser }, r
     new ApiResponse(200, { message: "Transaction deleted successfully" })
   );
 });
+const getSpendingOverview  = asyncHandler(async (req: Request & { user?: IUser }, res) => {
+  if (!req.user) {
+    throw new ApiError(404, "User does not exist");
+  }
+  const userId = req.user._id;
+
+
+  return res.status(200).json(
+    new ApiResponse(200, { message: "Transaction deleted successfully" })
+  );
+});
 
 export {
   transactions,
@@ -132,4 +144,5 @@ export {
   addTransactions,
   editTransaction,
   deleteTransaction,
+  getSpendingOverview 
 };

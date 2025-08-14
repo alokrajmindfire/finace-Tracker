@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { verifyJWT } from "@/middleware/auth.middleware";
-import { transactions, transaction, addTransactions, editTransaction, deleteTransaction } from "@/controller/transaction.controller";
+import { transactions, transaction, addTransactions, editTransaction, deleteTransaction, getSpendingOverview  } from "@/controller/transaction.controller";
 
 
 const router = Router()
@@ -11,6 +11,7 @@ router.route("/:id").get(verifyJWT,transaction)
 router.route("/").post(verifyJWT,addTransactions)
 router.route("/:id").put(verifyJWT,editTransaction)
 router.route("/:id").delete(verifyJWT,deleteTransaction)
+router.route("/spending-overview").delete(verifyJWT,getSpendingOverview )
 
 
 export default router
