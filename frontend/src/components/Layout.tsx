@@ -28,7 +28,7 @@ export const Layout: React.FC = () => {
 
   const navigationItems = [
     { path: '/', label: 'Dashboard', icon: Home },
-    { path: '/transactions', label: 'Transactions', icon: Plus },
+    { path: '/transaction', label: 'Transactions', icon: Plus },
     { path: '/categories', label: 'Categories', icon: Tag },
   ];
 
@@ -60,7 +60,7 @@ export const Layout: React.FC = () => {
               </nav>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, {user?.name}</span>
+              <span className="text-sm text-gray-600">Welcome, {user?.fullName}</span>
               <Button 
                 variant="outline" 
                 size="sm" 
@@ -79,7 +79,6 @@ export const Layout: React.FC = () => {
         <Outlet />
       </main>
 
-      {/* Mobile Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
         <div className="grid grid-cols-3 gap-1 p-2">
           {navigationItems.map((item) => {

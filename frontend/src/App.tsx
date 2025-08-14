@@ -7,6 +7,8 @@ import Dashboard from './pages/Dashboard';
 import { LoginForm } from './components/auth/LoginForm';
 import { RegisterForm } from './components/auth/RegisterForm';
 import { Toaster } from "@/components/ui/sonner"
+import Transactions from './pages/Transactions';
+import Category from './pages/Category';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +41,8 @@ const AppRoutes: React.FC = () => {
         }
       >
         <Route index element={<Dashboard />} />
+        <Route path='/transaction' element={<Transactions />} />
+        <Route path='/categories' element={<Category />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
