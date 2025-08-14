@@ -18,7 +18,7 @@ export interface Category {
 export interface User {
   id: string;
   email: string;
-  name: string;
+  fullName: string;
 }
 
 export interface DashboardStats {
