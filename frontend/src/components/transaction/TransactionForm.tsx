@@ -48,7 +48,7 @@ export function TransactionForm({ data, onClose }: Props) {
       amount: data?.amount ?? 0,
       description: data?.description ?? '',
       categoryId: typeof data?.categoryId != 'string' ? data?.categoryId?._id : '',
-      date: data?.date ? new Date(data.date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
+      date: data?.date ? new Date(data.date).toISOString().slice(0, 10) : undefined,
     },
   });
 
@@ -168,17 +168,13 @@ export function TransactionForm({ data, onClose }: Props) {
           />
           {errors.date && <span className="text-red-500">{errors.date.message}</span>}
         </div>
-
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline" type="button">Cancel</Button>
           </DialogClose>
-          <DialogClose asChild>
             <Button type="submit" disabled={isUpdatePending || isCreatePending}>
               {isUpdatePending || isCreatePending ? 'Saving...' : isEdit ? 'Save Changes' : 'Save Transaction'}
             </Button>
-          </DialogClose>
-
         </DialogFooter>
       </form>
     </DialogContent>

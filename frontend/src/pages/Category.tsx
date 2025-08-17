@@ -12,12 +12,12 @@ const Category = () => {
 
     if (isLoading) return <div>Loading...</div>;
 
-    const closeDialog = () => setIsOpen(false);
-
+    const closeDialog = () => setIsOpen(false)
+    const onOpenChange = () => setIsOpen(!isOpen)
     return (
         <>
             <div className="flex justify-end mb-6">
-                <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <Dialog open={isOpen} onOpenChange={onOpenChange}>
                     <DialogTrigger asChild>
                         <Button
                             size="sm"

@@ -60,7 +60,6 @@ export function CategoryForm({ data, onClose }: Props) {
               Cancel
             </Button>
           </DialogClose>
-          <DialogClose asChild>
             <Button
               type="submit"
               disabled={isCreatePending}
@@ -68,7 +67,6 @@ export function CategoryForm({ data, onClose }: Props) {
             >
               {isCreatePending? 'Saving...' : 'Save Category'}
             </Button>
-          </DialogClose>
         </DialogFooter>
       </form>
     </DialogContent>
