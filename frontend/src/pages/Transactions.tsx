@@ -64,7 +64,7 @@ const Transactions = () => {
               <TableCell className="font-medium">{item.type}</TableCell>
               <TableCell>{item.amount}</TableCell>
               <TableCell>{item.description}</TableCell>
-              <TableCell>{item.categoryId?.name}</TableCell>
+              <TableCell>{typeof item?.categoryId != 'string' ? item.categoryId?.name:''}</TableCell>
               <TableCell className="text-right">
                 <Dialog>
                   <DialogTrigger asChild>

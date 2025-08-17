@@ -1,5 +1,9 @@
+
 export interface Category {
   name: string;
+}
+export interface CategoryItem extends Category{
+  _id: string;
 }
 
 export interface User {

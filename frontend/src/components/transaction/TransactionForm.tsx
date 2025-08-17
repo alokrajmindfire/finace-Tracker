@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
   DialogContent,
@@ -48,7 +47,7 @@ export function TransactionForm({ data, onClose }: Props) {
       type: data?.type ?? 'expense',
       amount: data?.amount ?? 0,
       description: data?.description ?? '',
-      categoryId: data?.categoryId?._id ?? '',
+      categoryId: typeof data?.categoryId != 'string' ? data?.categoryId?._id : '',
       date: data?.date ? new Date(data.date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
     },
   });
@@ -143,11 +142,15 @@ export function TransactionForm({ data, onClose }: Props) {
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Categories</SelectLabel>
-                    {categoriesData?.data?.map((category) => (
-                      <SelectItem key={category._id} value={category._id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
+                    {categoriesData?.success && categoriesData.data?.length > 0 ? (
+                      categoriesData.data.map((category) => (
+                        <SelectItem key={category._id} value={category._id}>
+                          {category.name}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value='' disabled={true}>No categories available</SelectItem>
+                    )}
                   </SelectGroup>
                 </SelectContent>
               </Select>

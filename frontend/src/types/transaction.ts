@@ -5,7 +5,7 @@ export interface Transaction {
   categoryId: {
     _id: string,
     name: string
-  };
+  }|string;
   description: string;
   date: string;
   userId: string;

@@ -1,4 +1,4 @@
-import type { Category, User } from "@/types";
+import type { Category, CategoryItem, User } from "@/types";
 import api, { setAuthToken } from "./axios";
 import type { Transaction } from "@/types/transaction";
 import { handleApi } from "./apiWrapper";
@@ -43,7 +43,7 @@ export const transactionApi = {
 };
 
 export const categoryApi = {
-  list: () => handleApi(() => api.get('/category')), 
+  list: () => handleApi<CategoryItem[]>(() => api.get('/category')), 
   create: (payload: Partial<Category>) =>
     handleApi<Category>(() => api.post('/category', payload)),
 };

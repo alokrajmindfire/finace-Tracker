@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
   DialogContent,
@@ -10,7 +9,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useCreateCategory, useCreateTransaction } from '@/lib/queries';
+import { useCreateCategory } from '@/lib/queries';
 import type { Category } from '@/types';
 
 interface FormData {
