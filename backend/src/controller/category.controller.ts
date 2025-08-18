@@ -18,6 +18,8 @@ const categories = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
     console.log("user",user)
 
     const categories = await Category.find({userId:user._id})
+    // const result = await Category.deleteMany({ userId: user._id });
+
     if (!categories.length) {
         throw new ApiError(404, "No Categories found")
     }
@@ -35,20 +37,19 @@ const categories = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
 
 const addCategories = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
     const user = req.user
-    const {name,type} = req.body
+    const {name} = req.body
     if (!user) {
         throw new ApiError(404, "User does not exist")
     }
     if (
-        [name,type].some((field) => field?.trim() === "")
+        [name].some((field) => field?.trim() === "")
     ) {
         throw new ApiError(400, "All fields are required")
     }
-    validateRequiredFields(req.body, ["name", "type"]);
+    validateRequiredFields(req.body, ["name"]);
     
     const category = await Category.create({
         name,
-        type, 
         userId:user._id,
     })    
 
