@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser"
 import authRoute from './routes/auth.route'
 import categoryRoute from './routes/category.route'
 import transactionsRoute from './routes/transaction.route'
+import dashboardRoute from './routes/dashboard.route'
 const app = express()
 
 app.use(cors({
@@ -21,6 +22,7 @@ app.set('trust proxy', 1)
 app.use("/api/auth", authRoute)
 app.use("/api/category", categoryRoute)
 app.use("/api/transaction", transactionsRoute)
+app.use("/api/dashboard", dashboardRoute)
 app.use((req, res) => {
   res.status(404).send('Route Not Found');
 });

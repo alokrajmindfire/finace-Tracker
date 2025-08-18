@@ -7,11 +7,11 @@ import { transactions, transaction, addTransactions, editTransaction, deleteTran
 const router = Router()
 
 router.route("/").get(verifyJWT,transactions)
+router.route("/spending-overview").get(verifyJWT,getSpendingOverview)
 router.route("/:id").get(verifyJWT,transaction)
 router.route("/").post(verifyJWT,addTransactions)
 router.route("/:id").put(verifyJWT,editTransaction)
 router.route("/:id").delete(verifyJWT,deleteTransaction)
-router.route("/spending-overview").delete(verifyJWT,getSpendingOverview )
 
 
 export default router
