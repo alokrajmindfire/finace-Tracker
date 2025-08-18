@@ -13,9 +13,18 @@ export interface User {
 }
 
 export interface DashboardStats {
+  currentBalance: number;
+  totalExpense: number;
   totalIncome: number;
-  totalExpenses: number;
-  balance: number;
-  monthlyIncome: number;
-  monthlyExpenses: number;
 }
+export interface MonthlyChart {
+    month: string;
+    income: number;
+    expenses: number;
+}
+export interface ExpenseTrendsChart {
+    monthlyExpenses: { labels: string[]; values: number[] };
+    categoryExpenses: { categories: string[]; values: number[] };
+    categoryTrends: Record<string, number[]>;
+    labels: string[];
+  }

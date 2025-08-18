@@ -25,14 +25,11 @@ const Transactions = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
-  const closeDialog = () => setIsOpen(false)
-  const onOpenChange = () => setIsOpen(!isOpen)
-  const closeAddDialog = () => setIsDialogOpen(false)
-  const onOpenAddChange = () => setIsDialogOpen(!isDialogOpen)
+
   return (
     <>
       <div className="flex justify-end mb-6">
-        <Dialog open={isOpen} onOpenChange={onOpenChange}>
+        <Dialog>
           <DialogTrigger asChild>
             <Button
               size="sm"
@@ -42,7 +39,7 @@ const Transactions = () => {
               <Plus className="h-3 w-3" /> Add Transactions
             </Button>
           </DialogTrigger>
-          <TransactionForm onClose={closeDialog} />
+          <TransactionForm />
         </Dialog>
       </div>
       <Table>
@@ -62,7 +59,6 @@ const Transactions = () => {
                 {data && 'message' in data ? data.message : 'Failed to load transactions'}
               </TableCell>
             </TableRow>
-
             : data.data.map((item: Transaction) => (
               <TableRow key={item._id}>
                 <TableCell className="font-medium">{item.type}</TableCell>
@@ -70,7 +66,7 @@ const Transactions = () => {
                 <TableCell>{item.description}</TableCell>
                 <TableCell>{typeof item?.categoryId != 'string' ? item.categoryId?.name : ''}</TableCell>
                 <TableCell className="text-right">
-                  <Dialog open={isDialogOpen} onOpenChange={onOpenAddChange}>
+                  <Dialog>
                     <DialogTrigger asChild>
                       <Button
                         size="sm"
@@ -80,10 +76,9 @@ const Transactions = () => {
                         <Edit className="h-3 w-3" />
                       </Button>
                     </DialogTrigger>
-                    <TransactionForm data={item} onClose={closeAddDialog} />
+                    <TransactionForm data={item}/>
                   </Dialog>
                   <div>
-
                     <Button
                       size="sm"
                       variant="ghost"

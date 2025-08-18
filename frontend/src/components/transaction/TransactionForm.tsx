@@ -30,11 +30,11 @@ interface FormData {
 }
 
 interface Props {
-  data?: Transaction;
+  data?: Transaction | null;
   onClose?: () => void;
 }
 
-export function TransactionForm({ data, onClose }: Props) {
+export const TransactionForm = ({ data, onClose }: Props) => {
   const isEdit = Boolean(data);
 
   const {
@@ -51,6 +51,7 @@ export function TransactionForm({ data, onClose }: Props) {
       date: data?.date ? new Date(data.date).toISOString().slice(0, 10) : undefined,
     },
   });
+  // console.log("data", data)
 
   const { mutate: updateTransaction, isPending: isUpdatePending } = useUpdateTransaction();
   const { mutate: createTransaction, isPending: isCreatePending } = useCreateTransaction();
@@ -84,7 +85,7 @@ export function TransactionForm({ data, onClose }: Props) {
         </DialogHeader>
 
         <div className="grid gap-3">
-          <Label htmlFor="type">Type</Label>
+          <Label htmlFor="type">Type{data?._id}</Label>
           <Controller
             name="type"
             control={control}
@@ -172,9 +173,11 @@ export function TransactionForm({ data, onClose }: Props) {
           <DialogClose asChild>
             <Button variant="outline" type="button">Cancel</Button>
           </DialogClose>
+          {/* <DialogClose asChild > */}
             <Button type="submit" disabled={isUpdatePending || isCreatePending}>
               {isUpdatePending || isCreatePending ? 'Saving...' : isEdit ? 'Save Changes' : 'Save Transaction'}
             </Button>
+          {/* </DialogClose> */}
         </DialogFooter>
       </form>
     </DialogContent>

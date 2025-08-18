@@ -1,4 +1,4 @@
-import type { Category, CategoryItem, User } from "@/types";
+import type { Category, CategoryItem, DashboardStats, ExpenseTrendsChart, MonthlyChart, User } from "@/types";
 import api, { setAuthToken } from "./axios";
 import type { Transaction } from "@/types/transaction";
 import { handleApi } from "./apiWrapper";
@@ -47,3 +47,10 @@ export const categoryApi = {
   create: (payload: Partial<Category>) =>
     handleApi<Category>(() => api.post('/category', payload)),
 };
+
+export const dashboardApi = {
+  getStats: () => handleApi<DashboardStats>(() => api.get('/dashboard/overview')),
+  categoryBreakdown: (month:string, year:string) => handleApi<{categoryId:string, categoryName: string; total: number }[]>(() => api.get(`/dashboard/category-breakdown?month=${month}&year=${year}`)),
+  monthlySummary: (year:string) => handleApi<MonthlyChart[]>(() => api.get(`/dashboard/monthly-summary?year=${year}`)),
+  spendingOverview: () => handleApi<ExpenseTrendsChart[]>(() => api.get(`/transaction/spending-overview`))
+}

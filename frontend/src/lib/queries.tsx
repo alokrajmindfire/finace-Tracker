@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { categoryApi, transactionApi } from "./api";
+import { categoryApi, dashboardApi, transactionApi } from "./api";
 import type { Transaction } from "@/types/transaction";
 import type { Category } from "@/types";
 
@@ -82,3 +82,35 @@ export const useCreateCategory = () => {
     },
   });
 };
+
+export const useDashboardOverview = () => {
+  return useQuery({
+    queryKey: ['dashboard-stats'],
+    queryFn: dashboardApi.getStats,
+  });
+};
+
+export const useCategoryBreakdown = (month: string, year: string) => {
+  return useQuery({
+    queryKey: ['categoryBreakdown', month, year],
+    queryFn: ({ queryKey }) => {
+      const [_key, month, year] = queryKey;
+      return dashboardApi.categoryBreakdown(month, year);
+    },
+  });
+}
+export const useMonthlySummary = (year: string) => {
+  return useQuery({
+    queryKey: ['categoryBreakdown', year],
+    queryFn: ({ queryKey }) => {
+      const [_key, year] = queryKey;
+      return dashboardApi.monthlySummary(year);
+    },
+  });
+}
+export const useExpenseTrends = () => {
+  return useQuery({
+    queryKey: ['categoryBreakdown'],
+    queryFn: dashboardApi.spendingOverview,
+  });
+}
