@@ -74,9 +74,9 @@ export const CategoryBreakdown: React.FC = () => {
     // console.log("new Date().getMonth()", new Date().getMonth())
     return (
         <div>
-            <Card >
+            <Card className='h-full'>
                 <CardHeader>
-                    <CardTitle className="text-lg font-bold text-gray-800">
+                    <CardTitle>
                         Category Breakdown for {month}/{year}
                     </CardTitle>
                 <DateSelector month={month} year={year} setMonth={setMonth} setYear={setYear} />
@@ -122,7 +122,7 @@ function CategoryBreakdownHelper({ month, year }: { month: string; year: string 
 
     const breakdown = data.data;
 
-    console.log("breakdown", breakdown)
+    // console.log("breakdown", breakdown)
 
     return (
         <div>

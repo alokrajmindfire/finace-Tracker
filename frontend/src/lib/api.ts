@@ -52,5 +52,5 @@ export const dashboardApi = {
   getStats: () => handleApi<DashboardStats>(() => api.get('/dashboard/overview')),
   categoryBreakdown: (month:string, year:string) => handleApi<{categoryId:string, categoryName: string; total: number }[]>(() => api.get(`/dashboard/category-breakdown?month=${month}&year=${year}`)),
   monthlySummary: (year:string) => handleApi<MonthlyChart[]>(() => api.get(`/dashboard/monthly-summary?year=${year}`)),
-  spendingOverview: () => handleApi<ExpenseTrendsChart[]>(() => api.get(`/transaction/spending-overview`))
+  spendingOverview: () => handleApi<ExpenseTrendsChart>(() => api.get(`/transaction/spending-overview`))
 }

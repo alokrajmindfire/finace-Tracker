@@ -27,4 +27,5 @@ export interface ExpenseTrendsChart {
     categoryExpenses: { categories: string[]; values: number[] };
     categoryTrends: Record<string, number[]>;
     labels: string[];
-  }
+}
+  
