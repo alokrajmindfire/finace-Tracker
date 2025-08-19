@@ -3,7 +3,7 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/ApiError";
 import { IUser } from "../models/user.model";
 import { ApiResponse } from "../utils/ApiResponse";
-import { Transaction } from "@/models/transaction.model";
+import { Transaction } from "../models/transaction.model";
 
 const getOverview = asyncHandler(async (req: Request & { user?: IUser }, res) => {
     if (!req.user) {

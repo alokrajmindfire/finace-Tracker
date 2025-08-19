@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/ApiError"
 import { User } from "../models/user.model"
 import { ApiResponse } from "../utils/ApiResponse";
-import { validateRequiredFields } from "@/utils/validateRequiredFields";
+import { validateRequiredFields } from "../utils/validateRequiredFields";
 
 
 const generateAccessTokens = async (userId: number) => {

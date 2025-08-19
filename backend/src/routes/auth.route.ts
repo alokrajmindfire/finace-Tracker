@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { loginUser, logoutUser, registerUser } from "@/controller/auth.controller";
-import { verifyJWT } from "@/middleware/auth.middleware";
+import { loginUser, logoutUser, registerUser } from "../controller/auth.controller";
+import { verifyJWT } from "../middleware/auth.middleware";
 
 
 const router = Router()
