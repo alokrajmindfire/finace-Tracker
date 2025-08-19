@@ -15,8 +15,8 @@ export const authApi = {
     return user;
   },
 
-  register: async (email: string, password: string, name: string): Promise<User> => {
-    const { data } = await api.post("/auth/register", { email, password, name });
+  register: async (email: string, password: string, fullName: string): Promise<User> => {
+    const { data } = await api.post("/auth/register", { email, password, fullName });
     const { accessToken, user } = data.data;
 
     localStorage.setItem("token", accessToken);

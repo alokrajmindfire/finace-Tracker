@@ -14,13 +14,13 @@ export const RegisterForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [name, setName] = useState('');
+  const [fullName, setFullName] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const registerMutation = useMutation({
-    mutationFn: ({ email, password, name }: { email: string; password: string; name: string }) =>
-      authApi.register(email, password, name),
+    mutationFn: ({ email, password, fullName }: { email: string; password: string; fullName: string }) =>
+      authApi.register(email, password, fullName),
     onSuccess: (user) => {
       login(user);
       toast.success('Registration successful!');
@@ -34,7 +34,7 @@ export const RegisterForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !password || !confirmPassword || !name) {
+    if (!email || !password || !confirmPassword || !fullName) {
       toast.error('Please fill in all fields');
       return;
     }
@@ -49,7 +49,7 @@ export const RegisterForm: React.FC = () => {
       return;
     }
     
-    registerMutation.mutate({ email, password, name });
+    registerMutation.mutate({ email, password, fullName });
   };
 
   return (
@@ -61,13 +61,13 @@ export const RegisterForm: React.FC = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="fullName">Full Name</Label>
               <Input
-                id="name"
+                id="fullName"
                 type="text"
-                placeholder="Enter your full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your full fullName"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
                 disabled={registerMutation.isPending}
               />
             </div>

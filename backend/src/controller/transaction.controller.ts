@@ -3,8 +3,8 @@ import {ApiError} from "../utils/ApiError"
 import { IUser} from "../models/user.model"
 import { ApiResponse } from "../utils/ApiResponse";
 import { Request } from "express";
-import { Transaction } from "@/models/transaction.model";
-import { validateRequiredFields } from "@/utils/validateRequiredFields";
+import { Transaction } from "../models/transaction.model";
+import { validateRequiredFields } from "../utils/validateRequiredFields";
 
 
 const transactions = asyncHandler(async (req:Request& { user?: IUser }, res) =>{

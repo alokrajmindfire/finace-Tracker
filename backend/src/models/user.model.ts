@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import jwt, { SignOptions } from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { ApiError } from "@/utils/ApiError";
+import { ApiError } from "../utils/ApiError";
 
 export interface IUser extends Document {
     email: string;

@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useCategories } from '@/lib/queries'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { CategoryForm } from '@/components/category/CategoryForm'
-import type { Category } from '@/types'
 
-const Category = () => {
+const CategoryPage = () => {
     const { data, isLoading, isError } = useCategories()
     const [isOpen, setIsOpen] = useState(false)
 
@@ -43,4 +42,4 @@ const Category = () => {
     );
 }
 
-export default Category;
+export default CategoryPage;
