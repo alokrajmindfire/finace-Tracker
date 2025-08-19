@@ -89,7 +89,8 @@ const editTransaction = asyncHandler(async (req: Request & { user?: IUser }, res
       date,
   } = req.body
   validateRequiredFields(req.body, ["amount", "type", "categoryId", "description", "date"]);
-  const transaction = await Transaction.findOne({ _id: id, userId });
+  const transaction = await Transaction.findById({ _id: id });
+  // console.log("transaction",transaction)
   if (!transaction) {
     throw new ApiError(404, "Transaction not found");
   }

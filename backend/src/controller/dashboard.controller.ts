@@ -35,13 +35,13 @@ const getOverview = asyncHandler(async (req: Request & { user?: IUser }, res) =>
         .json(
             new ApiResponse(
                 200,
-                [
+                
                     {
                         totalIncome:income,
                         totalExpense: expense,
                         currentBalance
                     }
-                ],
+                ,
             )
         )
 
@@ -58,27 +58,40 @@ const getCategoryBreakdown = asyncHandler(async (req: Request & { user?: IUser }
     endDate.setMonth(endDate.getMonth()+1)
     
     const date = await Transaction.aggregate([
-        {
-            $match:{
-                userId,
-                type:'expense',
-                date:{$gte:startdate , $lt:endDate}
-            }
-        },
-        {
-            $group:{
-                _id:'$categoryId',
-                total:{$sum:'$amount'}
-            }
-        },
-        {
-            $project:{
-             category:'$_id',
-             total:1,
-             _id:0
-            }
-        }
-    ])
+  {
+    $match: {
+      userId,
+      type: 'expense',
+      date: { $gte: startdate, $lt: endDate },
+    },
+  },
+  {
+    $group: {
+      _id: '$categoryId',
+      total: { $sum: '$amount' },
+    },
+  },
+  {
+    $lookup: {
+      from: 'categories',
+      localField: '_id',
+      foreignField: '_id',
+      as: 'category',
+    },
+  },
+  {
+    $unwind: '$category',
+  },
+  {
+    $project: {
+      categoryId: '$_id',
+      categoryName: '$category.name',
+      total: 1,
+      _id: 0,
+    },
+  },
+]);
+
     return res
         .status(200)
         .json(
