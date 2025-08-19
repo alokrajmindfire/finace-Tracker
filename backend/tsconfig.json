@@ -8,9 +8,6 @@
     "rootDir": ".",
     "baseUrl": ".",
     "esModuleInterop": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     "composite": true,
     "types":["node"],
     "typeRoots": ["./node_modules/@types","./types"]

@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { verifyJWT } from "@/middleware/auth.middleware";
-import { categories, addCategories } from "@/controller/category.controller";
+import { verifyJWT } from "../middleware/auth.middleware";
+import { categories, addCategories } from "../controller/category.controller";
 
 
 const router = Router()
