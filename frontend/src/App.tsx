@@ -11,6 +11,7 @@ import Transactions from './pages/Transactions';
 import CategoryPage from './pages/Category';
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from './components/ErrorFallBack';
+import NetworkIssue from './components/NetworkIssue';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -44,6 +45,7 @@ const AppRoutes: React.FC = () => {
         <Route index element={<Dashboard />} />
         <Route path='/transaction' element={<Transactions />} />
         <Route path='/categories' element={<CategoryPage />} />
+        <Route path='/network-issue' element={<NetworkIssue />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
@@ -56,6 +58,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Router>
+          {/* <NetworkIssue/> */}
           <ErrorBoundary
             FallbackComponent={ErrorFallback}
           >

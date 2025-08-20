@@ -19,6 +19,14 @@ export const setAuthToken = (token: string | null) => {
 api.interceptors.response.use(
   response => response,
   error => {
+    // console.log("axios error",error)
+    if (error.code === "ERR_NETWORK") {
+      const currentPath = window.location.pathname + window.location.search;
+      if (window.location.pathname !== "/network-issue") {
+        sessionStorage.setItem("previous_path", currentPath);
+        window.location.href = "/network-issue";
+      }
+    }
     if (error.response && error.response.status === 401) {
       localStorage.clear();
       window.location.href = "/login";
