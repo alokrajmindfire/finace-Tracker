@@ -48,11 +48,6 @@ const transactionSchema: Schema<ITransaction> = new Schema({
 });
 
 
-
-transactionSchema.virtual('formattedAmount').get(function() {
-  return this.amount.toFixed(2);
-});
-
 export const Transaction: Model<ITransaction> = mongoose.model<ITransaction>("Transaction", transactionSchema);
 
 

@@ -53,8 +53,8 @@ const Transactions = () => {
             </TableRow>
             : data.data.map((item: Transaction) => (
               <TableRow key={item._id}>
-                <TableCell className="font-medium">{item.type}</TableCell>
-                <TableCell>{item.amount}</TableCell>
+                <TableCell className="font-medium">{item?.type?.charAt(0)?.toUpperCase() + item?.type?.slice(1)}</TableCell>
+                <TableCell>${item.amount}</TableCell>
                 <TableCell>{item.description}</TableCell>
                 <TableCell>{typeof item?.categoryId != 'string' ? item.categoryId?.name : ''}</TableCell>
                 <TableCell className="text-right">

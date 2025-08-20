@@ -117,11 +117,14 @@ export const TransactionForm = ({ data, children }: Props) => {
 
           <div className="grid gap-3">
             <Label htmlFor="amount">Amount</Label>
-            <Input
-              id="amount"
-              type="number"
-              {...register('amount', { required: 'Amount is required' })}
-            />
+            <div className="flex items-center">
+              <span className="mr-2">$</span>
+              <Input
+                id="amount"
+                type="number"
+                {...register('amount', { required: 'Amount is required' })}
+              />
+            </div>
             {errors.amount && <span className="text-red-500">{errors.amount.message}</span>}
           </div>
 
