@@ -94,7 +94,7 @@ export const TransactionForm = ({ data, children }: Props) => {
             <DialogTitle>{isEdit ? 'Edit Transaction' : 'Add New Transaction'}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-3">
-            <Label htmlFor="type">Type{data?._id}</Label>
+            <Label htmlFor="type">Type</Label>
             <Controller
               name="type"
               control={control}
@@ -117,11 +117,14 @@ export const TransactionForm = ({ data, children }: Props) => {
 
           <div className="grid gap-3">
             <Label htmlFor="amount">Amount</Label>
-            <Input
-              id="amount"
-              type="number"
-              {...register('amount', { required: 'Amount is required' })}
-            />
+            <div className="flex items-center">
+              <span className="mr-2">$</span>
+              <Input
+                id="amount"
+                type="number"
+                {...register('amount', { required: 'Amount is required' })}
+              />
+            </div>
             {errors.amount && <span className="text-red-500">{errors.amount.message}</span>}
           </div>
 
@@ -152,14 +155,22 @@ export const TransactionForm = ({ data, children }: Props) => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Categories</SelectLabel>
-                      {categoriesData?.success && categoriesData.data?.length > 0 ? (
-                        categoriesData.data.map((category) => (
-                          <SelectItem key={category._id} value={category._id}>
-                            {category.name}
+                      {categoriesData?.success ? (
+                        categoriesData.data && categoriesData.data.length > 0 ? (
+                          categoriesData.data.map((category) => (
+                            <SelectItem key={category._id} value={category._id}>
+                              {category.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value='0' disabled>
+                            No categories found
                           </SelectItem>
-                        ))
+                        )
                       ) : (
-                        <SelectItem value='' disabled={true}>No categories available</SelectItem>
+                        <SelectItem value='0' disabled>
+                          Failed to load categories
+                        </SelectItem>
                       )}
                     </SelectGroup>
                   </SelectContent>

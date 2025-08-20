@@ -96,9 +96,6 @@ function CategoryBreakdownHelper({ month, year }: { month: string; year: string 
     if (isLoading) {
         return (
             <div className="max-w-md">
-                <CardHeader>
-                    <CardTitle>Category Breakdown</CardTitle>
-                </CardHeader>
                 <>
                     <Skeleton className="h-6 w-3/4 mb-4" />
                     {[...Array(5)].map((_, i) => (
@@ -112,10 +109,7 @@ function CategoryBreakdownHelper({ month, year }: { month: string; year: string 
     if (isError || !data?.success) {
         return (
             <div className="max-w-md">
-                <CardHeader>
-                    <CardTitle>Category Breakdown</CardTitle>
-                </CardHeader>
-                    <p className="text-red-600">Failed to load category breakdown.</p>
+                <p className="text-red-600">{JSON.stringify(data)}No category breakdown found.</p>
             </div>
         );
     }

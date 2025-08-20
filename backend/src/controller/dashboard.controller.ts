@@ -6,13 +6,13 @@ import { ApiResponse } from "../utils/ApiResponse";
 import { Transaction } from "../models/transaction.model";
 
 const getOverview = asyncHandler(async (req: Request & { user?: IUser }, res) => {
-    if (!req.user) {
+    const userId = req.user?._id
+    if (!userId) {
         throw new ApiError(404, "User does not exist")
     }
-
     const totalIncome = await Transaction.aggregate([
         {
-            $match: { type: "income" }
+            $match: { userId, type: "income" }
         },
         {
             $group: { _id: null, total: { $sum: '$amount' } }
@@ -20,7 +20,7 @@ const getOverview = asyncHandler(async (req: Request & { user?: IUser }, res) =>
     ])
     const totalExpense = await Transaction.aggregate([
         {
-            $match: { type: "expense" }
+            $match: { userId, type: "expense" }
         },
         {
             $group: { _id: null, total: { $sum: '$amount' } }
@@ -35,13 +35,11 @@ const getOverview = asyncHandler(async (req: Request & { user?: IUser }, res) =>
         .json(
             new ApiResponse(
                 200,
-                
                     {
                         totalIncome:income,
                         totalExpense: expense,
                         currentBalance
                     }
-                ,
             )
         )
 
