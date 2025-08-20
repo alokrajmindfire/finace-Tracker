@@ -152,14 +152,22 @@ export const TransactionForm = ({ data, children }: Props) => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Categories</SelectLabel>
-                      {categoriesData?.success && categoriesData.data?.length > 0 ? (
-                        categoriesData.data.map((category) => (
-                          <SelectItem key={category._id} value={category._id}>
-                            {category.name}
+                      {categoriesData?.success ? (
+                        categoriesData.data && categoriesData.data.length > 0 ? (
+                          categoriesData.data.map((category) => (
+                            <SelectItem key={category._id} value={category._id}>
+                              {category.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value='0' disabled>
+                            No categories found
                           </SelectItem>
-                        ))
+                        )
                       ) : (
-                        <SelectItem value='' disabled={true}>No categories available</SelectItem>
+                        <SelectItem value='0' disabled>
+                          Failed to load categories
+                        </SelectItem>
                       )}
                     </SelectGroup>
                   </SelectContent>

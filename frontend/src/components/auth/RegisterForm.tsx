@@ -71,7 +71,7 @@ export const RegisterForm: React.FC = () => {
               <Input
                 id="fullName"
                 type="text"
-                placeholder="Enter your full fullName"
+                placeholder="Enter your fullname"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 disabled={registerMutation.isPending}

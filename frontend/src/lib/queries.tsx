@@ -87,6 +87,7 @@ export const useDashboardOverview = () => {
   return useQuery({
     queryKey: ['dashboard-stats'],
     queryFn: dashboardApi.getStats,
+    staleTime:0
   });
 };
 

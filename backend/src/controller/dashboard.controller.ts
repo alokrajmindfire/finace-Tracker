@@ -35,13 +35,11 @@ const getOverview = asyncHandler(async (req: Request & { user?: IUser }, res) =>
         .json(
             new ApiResponse(
                 200,
-                
                     {
                         totalIncome:income,
                         totalExpense: expense,
                         currentBalance
                     }
-                ,
             )
         )
 

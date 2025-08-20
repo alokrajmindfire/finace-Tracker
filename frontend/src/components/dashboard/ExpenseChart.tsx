@@ -56,7 +56,7 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ({ data }
           <CardTitle>Monthly Expenses</CardTitle>
         </CardHeader>
         <CardContent className="h-72 flex justify-center items-center">
-          {!monthlyData.length ? <p className="text-gray-600">Monthly expenses not found.</p>:<ResponsiveContainer width="100%" height="100%">
+          {!monthlyData.length ? <p className="text-gray-600">Monthly expenses not found.</p> : <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
@@ -102,26 +102,26 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ({ data }
           <CardTitle>Category Trends Over Time</CardTitle>
         </CardHeader>
         <CardContent className="h-80 flex justify-center items-center">
-          {!trendData.length ? 
-          <p className="text-gray-600">Category Trends not found for this period.</p>:
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={trendData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              {Object.keys(categoryTrends).map((cat, i) => (
-                <Line
-                  key={cat}
-                  type="monotone"
-                  dataKey={cat}
-                  stroke={COLORS[i % COLORS.length]}
-                  strokeWidth={2}
-                />
-              ))}
-            </LineChart>
-          </ResponsiveContainer>}
+          {!trendData.length ?
+            <p className="text-gray-600">Category Trends not found for this period.</p> :
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={trendData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                {Object.keys(categoryTrends).map((cat, i) => (
+                  <Line
+                    key={cat}
+                    type="monotone"
+                    dataKey={cat}
+                    stroke={COLORS[i % COLORS.length]}
+                    strokeWidth={2}
+                  />
+                ))}
+              </LineChart>
+            </ResponsiveContainer>}
         </CardContent>
       </Card>
     </div>
@@ -149,12 +149,14 @@ export const ExpenseChart = () => {
 
   if (isError || !data?.success) {
     return (
-      <div className="max-w-md">
+      <Card className="max-w-md">
         <CardHeader>
-          <CardTitle>Monthly Summary</CardTitle>
+          <CardTitle>Expense Trends</CardTitle>
         </CardHeader>
-        <p className="text-red-600">Failed to load category breakdown.</p>
-      </div>
+        <CardContent className="max-w-md">
+          <p className="text-red-600">Failed to load monthly summary.</p>
+        </CardContent>
+      </Card>
     );
   }
   return (
