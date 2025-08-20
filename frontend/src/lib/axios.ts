@@ -27,7 +27,8 @@ api.interceptors.response.use(
         window.location.href = "/network-issue";
       }
     }
-    if (error.response && error.response.status === 401) {
+    // console.log("window.location.pathname",window.location.pathname)
+    if (error.response && error.response.status === 401 && window.location.pathname!='/login'&&window.location.pathname!='/register') {
       localStorage.clear();
       window.location.href = "/login";
     }
