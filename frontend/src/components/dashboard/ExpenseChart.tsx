@@ -29,7 +29,7 @@ interface ExpenseTrendsChartProps {
 
 const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'];
 
-const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ( {data} ) => {
+const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ({ data }) => {
   const { monthlyExpenses, categoryExpenses, categoryTrends, labels } = data;
   const monthlyData = labels.map((label: any, i: number) => ({
     month: label,
@@ -55,8 +55,8 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ( {data} 
         <CardHeader>
           <CardTitle>Monthly Expenses</CardTitle>
         </CardHeader>
-        <CardContent className="h-72">
-          <ResponsiveContainer width="100%" height="100%">
+        <CardContent className="h-72 flex justify-center items-center">
+          {!monthlyData.length ? <p className="text-gray-600">Monthly expenses not found.</p>:<ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
@@ -65,7 +65,7 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ( {data} 
               <Legend />
               <Bar dataKey="expenses" fill="#ef4444" name="Expenses" />
             </BarChart>
-          </ResponsiveContainer>
+          </ResponsiveContainer>}
         </CardContent>
       </Card>
 
@@ -74,24 +74,26 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ( {data} 
           <CardTitle>Category Distribution</CardTitle>
         </CardHeader>
         <CardContent className="h-72 flex justify-center items-center">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                label
-              >
-                {pieData.map((_, i) => (
-                  <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+          {!pieData.length ? <p className="text-gray-600">Category distribution not found.</p>
+            : <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  label
+                >
+                  {pieData.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>}
+
         </CardContent>
       </Card>
 
@@ -99,7 +101,9 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ( {data} 
         <CardHeader>
           <CardTitle>Category Trends Over Time</CardTitle>
         </CardHeader>
-        <CardContent className="h-80">
+        <CardContent className="h-80 flex justify-center items-center">
+          {!trendData.length ? 
+          <p className="text-gray-600">Category Trends not found for this period.</p>:
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={trendData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -117,7 +121,7 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ( {data} 
                 />
               ))}
             </LineChart>
-          </ResponsiveContainer>
+          </ResponsiveContainer>}
         </CardContent>
       </Card>
     </div>
@@ -127,32 +131,32 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ( {data} 
 export const ExpenseChart = () => {
   const { data, isLoading, isError } = useExpenseTrends();
   // console.log("ExpenseTrends",data)
- if (isLoading) {
-        return (
-            <div className="max-w-md">
-                <CardHeader>
-                    <CardTitle>Monthly Summary</CardTitle>
-                </CardHeader>
-                <>
-                    <Skeleton className="h-6 w-3/4 mb-4" />
-                    {[...Array(5)].map((_, i) => (
-                        <Skeleton key={i} className="h-4 mb-2" />
-                    ))}
-                </>
-            </div>
-        );
-    }
+  if (isLoading) {
+    return (
+      <div className="max-w-md">
+        <CardHeader>
+          <CardTitle>Monthly Summary</CardTitle>
+        </CardHeader>
+        <>
+          <Skeleton className="h-6 w-3/4 mb-4" />
+          {[...Array(5)].map((_, i) => (
+            <Skeleton key={i} className="h-4 mb-2" />
+          ))}
+        </>
+      </div>
+    );
+  }
 
-    if (isError || !data?.success) {
-        return (
-            <div className="max-w-md">
-                <CardHeader>
-                    <CardTitle>Monthly Summary</CardTitle>
-                </CardHeader>
-                    <p className="text-red-600">Failed to load category breakdown.</p>
-            </div>
-        );
-    }
+  if (isError || !data?.success) {
+    return (
+      <div className="max-w-md">
+        <CardHeader>
+          <CardTitle>Monthly Summary</CardTitle>
+        </CardHeader>
+        <p className="text-red-600">Failed to load category breakdown.</p>
+      </div>
+    );
+  }
   return (
     <div>
       <ExpenseTrendsChartComponent data={data.data} />
