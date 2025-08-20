@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { authApi } from '@/lib/api';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import type { AxiosError } from 'axios';
 
 export const RegisterForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -26,29 +27,34 @@ export const RegisterForm: React.FC = () => {
       toast.success('Registration successful!');
       navigate('/');
     },
-    onError: (error: Error) => {
-      toast.error(error.message || 'Registration failed');
+    onError: (error: unknown) => {
+      // console.log(error)
+      const err = error as AxiosError<{ message: string }>;
+      // console.log(err);
+
+      const message = err.response?.data?.message || 'Login failed';
+      toast.error(message);
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !password || !confirmPassword || !fullName) {
       toast.error('Please fill in all fields');
       return;
     }
-    
+
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
-    
+
     if (password.length < 6) {
       toast.error('Password must be at least 6 characters');
       return;
     }
-    
+
     registerMutation.mutate({ email, password, fullName });
   };
 
@@ -104,9 +110,9 @@ export const RegisterForm: React.FC = () => {
                 disabled={registerMutation.isPending}
               />
             </div>
-            <Button 
-              type="submit" 
-              className="w-full" 
+            <Button
+              type="submit"
+              className="w-full"
               disabled={registerMutation.isPending}
             >
               {registerMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

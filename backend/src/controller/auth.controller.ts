@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const existedUser = await User.findOne({ email })
 
     if (existedUser) {
-        throw new ApiError(409, "User with email or username already exists")
+        throw new ApiError(409, "User with email already exists")
     }
 
 
@@ -79,7 +79,7 @@ const loginUser = asyncHandler(async (req, res) => {
     if (!isPasswordValid) {
         throw new ApiError(401, "Invalid user credentials")
     }
-    console.log("user", user)
+    // console.log("user", user)
     const { accessToken } = await generateAccessTokens(user._id as number)
 
     const loggedInUser = await User.findById(user._id).select("-password")

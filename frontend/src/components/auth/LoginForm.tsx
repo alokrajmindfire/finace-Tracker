@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { authApi } from '@/lib/api';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import type { AxiosError } from 'axios';
 
 export const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -24,8 +25,13 @@ export const LoginForm: React.FC = () => {
       toast.success('Login successful!');
       navigate('/');
     },
-    onError: (error: Error) => {
-      toast.error(error.message || 'Login failed');
+    onError: (error: unknown) => {
+      // console.log(error)
+      const err = error as AxiosError<{ message: string }>;
+      // console.log(err);
+
+      const message = err.response?.data?.message || 'Login failed';
+      toast.error(message);
     },
   });
 
@@ -68,9 +74,9 @@ export const LoginForm: React.FC = () => {
                 disabled={loginMutation.isPending}
               />
             </div>
-            <Button 
-              type="submit" 
-              className="w-full" 
+            <Button
+              type="submit"
+              className="w-full"
               disabled={loginMutation.isPending}
             >
               {loginMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
