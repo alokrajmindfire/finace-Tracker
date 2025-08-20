@@ -94,7 +94,7 @@ export const TransactionForm = ({ data, children }: Props) => {
             <DialogTitle>{isEdit ? 'Edit Transaction' : 'Add New Transaction'}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-3">
-            <Label htmlFor="type">Type{data?._id}</Label>
+            <Label htmlFor="type">Type</Label>
             <Controller
               name="type"
               control={control}
