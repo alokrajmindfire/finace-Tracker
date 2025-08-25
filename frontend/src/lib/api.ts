@@ -38,19 +38,19 @@ export const transactionApi = {
     handleApi<Transaction>(() => api.put(`/transaction/${id}`, payload)),
   create: (payload: Partial<Transaction>) =>
     handleApi<Transaction>(() => api.post(`/transaction`, payload)),
-  delete: (id:string) =>
+  delete: (id: string) =>
     handleApi<Transaction>(() => api.delete(`/transaction/${id}`)),
 };
 
 export const categoryApi = {
-  list: () => handleApi<CategoryItem[]>(() => api.get('/category')), 
+  list: () => handleApi<CategoryItem[]>(() => api.get('/category')),
   create: (payload: Partial<Category>) =>
     handleApi<Category>(() => api.post('/category', payload)),
 };
 
 export const dashboardApi = {
   getStats: () => handleApi<DashboardStats>(() => api.get('/dashboard/overview')),
-  categoryBreakdown: (month:string, year:string) => handleApi<{categoryId:string, categoryName: string; total: number }[]>(() => api.get(`/dashboard/category-breakdown?month=${month}&year=${year}`)),
-  monthlySummary: (year:string) => handleApi<MonthlyChart[]>(() => api.get(`/dashboard/monthly-summary?year=${year}`)),
+  categoryBreakdown: (month: string, year: string) => handleApi<{ categoryId: string, categoryName: string; total: number }[]>(() => api.get(`/dashboard/category-breakdown?month=${month}&year=${year}`)),
+  monthlySummary: (year: string) => handleApi<MonthlyChart[]>(() => api.get(`/dashboard/monthly-summary?year=${year}`)),
   spendingOverview: () => handleApi<ExpenseTrendsChart>(() => api.get(`/transaction/spending-overview`))
 }

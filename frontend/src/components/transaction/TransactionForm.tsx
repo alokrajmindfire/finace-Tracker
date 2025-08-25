@@ -45,6 +45,7 @@ export const TransactionForm = ({ data, children }: Props) => {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -79,6 +80,7 @@ export const TransactionForm = ({ data, children }: Props) => {
     } else {
       createTransaction({ data: transactionData }, { onSuccess: () => onClose?.() });
     }
+    reset({})
   };
   const onClose = () => setIsOpen(false)
   const onOpenChange = () => setIsOpen(!isOpen)
