@@ -1,70 +1,52 @@
-import { asyncHandler } from "../utils/asyncHandler";
-import {ApiError} from "../utils/ApiError"
-import { IUser} from "../models/user.model"
-import { ApiResponse } from "../utils/ApiResponse";
-import { Request } from "express";
-import { Category } from "../models/category.model";
-import { validateRequiredFields } from "../utils/validateRequiredFields";
+import { asyncHandler } from '../utils/asyncHandler';
+import { ApiError } from '../utils/ApiError';
+import { IUser } from '../models/user.model';
+import { ApiResponse } from '../utils/ApiResponse';
+import { Request } from 'express';
+import { Category } from '../models/category.model';
+import { validateRequiredFields } from '../utils/validateRequiredFields';
 
-
-const categories = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
-    const user = req.user
+const categories = asyncHandler(
+  async (req: Request & { user?: IUser }, res) => {
+    const user = req.user;
 
     if (!user) {
-        throw new ApiError(404, "User does not exist")
+      throw new ApiError(404, 'User does not exist');
     }
 
-   
-    console.log("user",user)
+    console.log('user', user);
 
-    const categories = await Category.find({userId:user._id})
+    const categories = await Category.find({ userId: user._id });
     // const result = await Category.deleteMany({ userId: user._id });
 
     if (!categories.length) {
-        throw new ApiError(404, "No Categories found")
+      throw new ApiError(404, 'No Categories found');
     }
 
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(
-            200, 
-             categories,
-        )
-    )
+    return res.status(200).json(new ApiResponse(200, categories));
+  },
+);
 
-})
-
-const addCategories = asyncHandler(async (req:Request& { user?: IUser }, res) =>{
-    const user = req.user
-    const {name} = req.body
+const addCategories = asyncHandler(
+  async (req: Request & { user?: IUser }, res) => {
+    const user = req.user;
+    const { name } = req.body;
     if (!user) {
-        throw new ApiError(404, "User does not exist")
+      throw new ApiError(404, 'User does not exist');
     }
-    if (
-        [name].some((field) => field?.trim() === "")
-    ) {
-        throw new ApiError(400, "All fields are required")
+    if ([name].some((field) => field?.trim() === '')) {
+      throw new ApiError(400, 'All fields are required');
     }
-    validateRequiredFields(req.body, ["name"]);
-    
+    validateRequiredFields(req.body, ['name']);
+
     const category = await Category.create({
-        name,
-        userId:user._id,
-    })    
+      name,
+      userId: user._id,
+    });
 
     return res
-    .status(200)
-    .json(
-        new ApiResponse(
-            200, 
-            category,
-            "Category created successfully"
-        )
-    )
-
-})
-export {
-    categories,  
-    addCategories
-}
+      .status(200)
+      .json(new ApiResponse(200, category, 'Category created successfully'));
+  },
+);
+export { categories, addCategories };

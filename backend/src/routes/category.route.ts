@@ -1,12 +1,11 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { verifyJWT } from "../middleware/auth.middleware";
-import { categories, addCategories } from "../controller/category.controller";
+import { verifyJWT } from '../middleware/auth.middleware';
+import { categories, addCategories } from '../controller/category.controller';
 
+const router = Router();
 
-const router = Router()
+router.route('/').get(verifyJWT, categories);
+router.route('/').post(verifyJWT, addCategories);
 
-router.route("/").get(verifyJWT,categories)
-router.route("/").post(verifyJWT,addCategories)
-
-export default router
+export default router;
