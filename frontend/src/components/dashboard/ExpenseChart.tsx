@@ -1,10 +1,5 @@
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent
-} from '@/components/ui/card';
-import { useExpenseTrends } from '@/lib/queries';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { useExpenseTrends } from '@/lib/queries'
 import {
   ResponsiveContainer,
   LineChart,
@@ -18,36 +13,36 @@ import {
   Legend,
   PieChart,
   Pie,
-  Cell
-} from 'recharts';
-import { Skeleton } from '../ui/skeleton';
-import type { ExpenseTrendsChart } from '@/types';
+  Cell,
+} from 'recharts'
+import { Skeleton } from '../ui/skeleton'
+import type { ExpenseTrendsChart } from '@/types'
 
 interface ExpenseTrendsChartProps {
-  data: ExpenseTrendsChart;
+  data: ExpenseTrendsChart
 }
 
-const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'];
+const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6']
 
 const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ({ data }) => {
-  const { monthlyExpenses, categoryExpenses, categoryTrends, labels } = data;
+  const { monthlyExpenses, categoryExpenses, categoryTrends, labels } = data
   const monthlyData = labels.map((label: any, i: number) => ({
     month: label,
-    expenses: monthlyExpenses.values[i] ?? 0
-  }));
+    expenses: monthlyExpenses.values[i] ?? 0,
+  }))
 
   const trendData = labels.map((label: any, idx: number) => {
-    const entry: any = { month: label };
-    Object.keys(categoryTrends).forEach(cat => {
-      entry[cat] = categoryTrends[cat][idx] ?? 0;
-    });
-    return entry;
-  });
+    const entry: any = { month: label }
+    Object.keys(categoryTrends).forEach((cat) => {
+      entry[cat] = categoryTrends[cat][idx] ?? 0
+    })
+    return entry
+  })
 
   const pieData = categoryExpenses.categories.map((cat, i) => ({
     name: cat,
-    value: categoryExpenses.values[i] ?? 0
-  }));
+    value: categoryExpenses.values[i] ?? 0,
+  }))
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -56,16 +51,20 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ({ data }
           <CardTitle>Monthly Expenses</CardTitle>
         </CardHeader>
         <CardContent className="h-72 flex justify-center items-center">
-          {!monthlyData.length ? <p className="text-gray-600">Monthly expenses not found.</p> : <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="expenses" fill="#ef4444" name="Expenses" />
-            </BarChart>
-          </ResponsiveContainer>}
+          {!monthlyData.length ? (
+            <p className="text-gray-600">Monthly expenses not found.</p>
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={monthlyData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="expenses" fill="#ef4444" name="Expenses" />
+              </BarChart>
+            </ResponsiveContainer>
+          )}
         </CardContent>
       </Card>
 
@@ -74,8 +73,10 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ({ data }
           <CardTitle>Category Distribution</CardTitle>
         </CardHeader>
         <CardContent className="h-72 flex justify-center items-center">
-          {!pieData.length ? <p className="text-gray-600">Category distribution not found.</p>
-            : <ResponsiveContainer width="100%" height="100%">
+          {!pieData.length ? (
+            <p className="text-gray-600">Category distribution not found.</p>
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={pieData}
@@ -92,8 +93,8 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ({ data }
                 </Pie>
                 <Tooltip />
               </PieChart>
-            </ResponsiveContainer>}
-
+            </ResponsiveContainer>
+          )}
         </CardContent>
       </Card>
 
@@ -102,8 +103,9 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ({ data }
           <CardTitle>Category Trends Over Time</CardTitle>
         </CardHeader>
         <CardContent className="h-80 flex justify-center items-center">
-          {!trendData.length ?
-            <p className="text-gray-600">Category Trends not found for this period.</p> :
+          {!trendData.length ? (
+            <p className="text-gray-600">Category Trends not found for this period.</p>
+          ) : (
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trendData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -121,15 +123,16 @@ const ExpenseTrendsChartComponent: React.FC<ExpenseTrendsChartProps> = ({ data }
                   />
                 ))}
               </LineChart>
-            </ResponsiveContainer>}
+            </ResponsiveContainer>
+          )}
         </CardContent>
       </Card>
     </div>
-  );
-};
+  )
+}
 
 export const ExpenseChart = () => {
-  const { data, isLoading, isError } = useExpenseTrends();
+  const { data, isLoading, isError } = useExpenseTrends()
   // console.log("ExpenseTrends",data)
   if (isLoading) {
     return (
@@ -144,7 +147,7 @@ export const ExpenseChart = () => {
           ))}
         </>
       </div>
-    );
+    )
   }
 
   if (isError || !data?.success) {
@@ -157,7 +160,7 @@ export const ExpenseChart = () => {
           <p className="text-red-600">Failed to load monthly summary.</p>
         </CardContent>
       </Card>
-    );
+    )
   }
   return (
     <div>

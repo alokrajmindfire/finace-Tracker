@@ -1,4 +1,4 @@
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form'
 import {
   DialogContent,
   DialogHeader,
@@ -6,11 +6,11 @@ import {
   DialogFooter,
   DialogClose,
   DialogTrigger,
-  Dialog
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+  Dialog,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectTrigger,
@@ -18,27 +18,27 @@ import {
   SelectContent,
   SelectGroup,
   SelectLabel,
-  SelectItem
-} from '@/components/ui/select';
-import { useUpdateTransaction, useCreateTransaction, useCategories } from '@/lib/queries';
-import type { Transaction } from '@/types/transaction';
-import { useState, type ReactElement } from 'react';
+  SelectItem,
+} from '@/components/ui/select'
+import { useUpdateTransaction, useCreateTransaction, useCategories } from '@/lib/queries'
+import type { Transaction } from '@/types/transaction'
+import { useState, type ReactElement } from 'react'
 
 interface FormData {
-  type: 'income' | 'expense';
-  amount: number;
-  description: string;
-  categoryId: string;
-  date: string;
+  type: 'income' | 'expense'
+  amount: number
+  description: string
+  categoryId: string
+  date: string
 }
 
 interface Props {
-  data?: Transaction | null;
+  data?: Transaction | null
   children: ReactElement
 }
 
 export const TransactionForm = ({ data, children }: Props) => {
-  const isEdit = Boolean(data);
+  const isEdit = Boolean(data)
   const [isOpen, setIsOpen] = useState(false)
 
   const {
@@ -55,13 +55,17 @@ export const TransactionForm = ({ data, children }: Props) => {
       categoryId: typeof data?.categoryId != 'string' ? data?.categoryId?._id : '',
       date: data?.date ? new Date(data.date).toISOString().slice(0, 10) : undefined,
     },
-  });
+  })
   // console.log("data", data)
 
-  const { mutate: updateTransaction, isPending: isUpdatePending } = useUpdateTransaction();
-  const { mutate: createTransaction, isPending: isCreatePending } = useCreateTransaction();
+  const { mutate: updateTransaction, isPending: isUpdatePending } = useUpdateTransaction()
+  const { mutate: createTransaction, isPending: isCreatePending } = useCreateTransaction()
 
-  const { data: categoriesData, isLoading: isCategoriesLoading, isError: isCategoriesError } = useCategories();
+  const {
+    data: categoriesData,
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+  } = useCategories()
 
   const onSubmit = (formData: FormData) => {
     const transactionData = {
@@ -70,26 +74,21 @@ export const TransactionForm = ({ data, children }: Props) => {
       type: formData.type,
       categoryId: formData.categoryId,
       date: formData.date,
-    };
+    }
 
     if (isEdit && data) {
-      updateTransaction(
-        { id: data._id, data: transactionData },
-        { onSuccess: () => onClose?.() }
-      );
+      updateTransaction({ id: data._id, data: transactionData }, { onSuccess: () => onClose?.() })
     } else {
-      createTransaction({ data: transactionData }, { onSuccess: () => onClose?.() });
+      createTransaction({ data: transactionData }, { onSuccess: () => onClose?.() })
     }
     reset({})
-  };
+  }
   const onClose = () => setIsOpen(false)
   const onOpenChange = () => setIsOpen(!isOpen)
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
           <DialogHeader>
@@ -136,7 +135,9 @@ export const TransactionForm = ({ data, children }: Props) => {
               id="description"
               {...register('description', { required: 'Description is required' })}
             />
-            {errors.description && <span className="text-red-500">{errors.description.message}</span>}
+            {errors.description && (
+              <span className="text-red-500">{errors.description.message}</span>
+            )}
           </div>
 
           <div className="grid gap-3">
@@ -165,12 +166,12 @@ export const TransactionForm = ({ data, children }: Props) => {
                             </SelectItem>
                           ))
                         ) : (
-                          <SelectItem value='0' disabled>
+                          <SelectItem value="0" disabled>
                             No categories found
                           </SelectItem>
                         )
                       ) : (
-                        <SelectItem value='0' disabled>
+                        <SelectItem value="0" disabled>
                           Failed to load categories
                         </SelectItem>
                       )}
@@ -184,25 +185,27 @@ export const TransactionForm = ({ data, children }: Props) => {
 
           <div className="grid gap-3">
             <Label htmlFor="date">Date</Label>
-            <Input
-              id="date"
-              type="date"
-              {...register('date', { required: 'Date is required' })}
-            />
+            <Input id="date" type="date" {...register('date', { required: 'Date is required' })} />
             {errors.date && <span className="text-red-500">{errors.date.message}</span>}
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" type="button">Cancel</Button>
+              <Button variant="outline" type="button">
+                Cancel
+              </Button>
             </DialogClose>
             {/* <DialogClose asChild > */}
             <Button type="submit" disabled={isUpdatePending || isCreatePending}>
-              {isUpdatePending || isCreatePending ? 'Saving...' : isEdit ? 'Save Changes' : 'Save Transaction'}
+              {isUpdatePending || isCreatePending
+                ? 'Saving...'
+                : isEdit
+                  ? 'Save Changes'
+                  : 'Save Transaction'}
             </Button>
             {/* </DialogClose> */}
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

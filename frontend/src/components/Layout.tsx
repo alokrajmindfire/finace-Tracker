@@ -1,36 +1,35 @@
-import React from 'react';
-import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
-import { LogOut, Home, Plus, Tag } from 'lucide-react';
-import { authApi } from '@/lib/api';
-import { toast } from 'sonner';
-import { useMutation } from '@tanstack/react-query';
+import React from 'react'
+import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { useAuth } from '@/contexts/AuthContext'
+import { LogOut, Home, Plus, Tag } from 'lucide-react'
+import { authApi } from '@/lib/api'
+import { toast } from 'sonner'
+import { useMutation } from '@tanstack/react-query'
 
 export const Layout: React.FC = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
   const logoutMutation = useMutation({
-    mutationFn: () =>
-      authApi.logout(),
+    mutationFn: () => authApi.logout(),
     onSuccess: () => {
-      logout();
-      navigate('/login');
+      logout()
+      navigate('/login')
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Login failed');
+      toast.error(error.message || 'Login failed')
     },
-  });
+  })
   const handleLogout = () => {
-    logoutMutation.mutate();
-  };
+    logoutMutation.mutate()
+  }
 
   const navigationItems = [
     { path: '/', label: 'Dashboard', icon: Home },
     { path: '/transaction', label: 'Transactions', icon: Plus },
     { path: '/categories', label: 'Categories', icon: Tag },
-  ];
+  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -41,7 +40,7 @@ export const Layout: React.FC = () => {
               <h1 className="text-xl font-semibold text-gray-900">Finance Tracker</h1>
               <nav className="hidden md:flex space-x-6">
                 {navigationItems.map((item) => {
-                  const Icon = item.icon;
+                  const Icon = item.icon
                   return (
                     <Link
                       key={item.path}
@@ -55,15 +54,15 @@ export const Layout: React.FC = () => {
                       <Icon className="h-4 w-4" />
                       <span>{item.label}</span>
                     </Link>
-                  );
+                  )
                 })}
               </nav>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">Welcome, {user?.fullName}</span>
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={handleLogout}
                 className="flex items-center space-x-2"
               >
@@ -82,24 +81,22 @@ export const Layout: React.FC = () => {
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
         <div className="grid grid-cols-3 gap-1 p-2">
           {navigationItems.map((item) => {
-            const Icon = item.icon;
+            const Icon = item.icon
             return (
               <Link
                 key={item.path}
                 to={item.path}
                 className={`flex flex-col items-center justify-center py-2 px-1 rounded-md transition-colors ${
-                  location.pathname === item.path
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-600'
+                  location.pathname === item.path ? 'text-blue-600 bg-blue-50' : 'text-gray-600'
                 }`}
               >
                 <Icon className="h-5 w-5" />
                 <span className="text-xs mt-1">{item.label}</span>
               </Link>
-            );
+            )
           })}
         </div>
       </nav>
     </div>
-  );
-};
+  )
+}

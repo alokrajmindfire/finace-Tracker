@@ -9,7 +9,7 @@ import {
   deleteTransaction,
   getSpendingOverview,
 } from '../controller/transaction.controller';
-import { validateResource } from 'src/middleware/validatereq.middleare';
+import { validateResource } from 'src/middleware/validate-req.middleware';
 import {
   addTransactionSchema,
   deleteTransactionSchema,

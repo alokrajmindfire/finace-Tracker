@@ -1,40 +1,44 @@
-import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 import {
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogClose
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useCreateCategory } from '@/lib/queries';
-import type { Category } from '@/types';
+  DialogClose,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { useCreateCategory } from '@/lib/queries'
+import type { Category } from '@/types'
 
 interface FormData {
-  name: string;
+  name: string
 }
 
 interface Props {
-  data?: Category;
-  onClose?: () => void;
+  data?: Category
+  onClose?: () => void
 }
 
 export function CategoryForm({ data, onClose }: Props) {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
     defaultValues: {
       name: data?.name || '',
     },
-  });
+  })
 
-  const { mutate: createCategory, isPending: isCreatePending } = useCreateCategory();
+  const { mutate: createCategory, isPending: isCreatePending } = useCreateCategory()
 
   const onSubmit = (formData: FormData) => {
-    const categoryData = { name: formData.name };
+    const categoryData = { name: formData.name }
 
-      createCategory({ data: categoryData }, { onSuccess: onClose });
-  };
+    createCategory({ data: categoryData }, { onSuccess: onClose })
+  }
 
   return (
     <DialogContent className="sm:max-w-[425px]">
@@ -60,15 +64,15 @@ export function CategoryForm({ data, onClose }: Props) {
               Cancel
             </Button>
           </DialogClose>
-            <Button
-              type="submit"
-              disabled={isCreatePending}
-              className="bg-blue-600 text-white hover:bg-blue-700"
-            >
-              {isCreatePending? 'Saving...' : 'Save Category'}
-            </Button>
+          <Button
+            type="submit"
+            disabled={isCreatePending}
+            className="bg-blue-600 text-white hover:bg-blue-700"
+          >
+            {isCreatePending ? 'Saving...' : 'Save Category'}
+          </Button>
         </DialogFooter>
       </form>
     </DialogContent>
-  );
+  )
 }

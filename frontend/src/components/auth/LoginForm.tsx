@@ -1,48 +1,48 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/contexts/AuthContext';
-import { authApi } from '@/lib/api';
-import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
-import type { AxiosError } from 'axios';
+import React, { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useAuth } from '@/contexts/AuthContext'
+import { authApi } from '@/lib/api'
+import { toast } from 'sonner'
+import { Loader2 } from 'lucide-react'
+import type { AxiosError } from 'axios'
 
 export const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
   const loginMutation = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       authApi.login(email, password),
     onSuccess: (user) => {
-      login(user);
-      toast.success('Login successful!');
-      navigate('/');
+      login(user)
+      toast.success('Login successful!')
+      navigate('/')
     },
     onError: (error: unknown) => {
       // console.log(error)
-      const err = error as AxiosError<{ message: string }>;
+      const err = error as AxiosError<{ message: string }>
       // console.log(err);
 
-      const message = err.response?.data?.message || 'Login failed';
-      toast.error(message);
+      const message = err.response?.data?.message || 'Login failed'
+      toast.error(message)
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!email || !password) {
-      toast.error('Please fill in all fields');
-      return;
+      toast.error('Please fill in all fields')
+      return
     }
-    loginMutation.mutate({ email, password });
-  };
+    loginMutation.mutate({ email, password })
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -74,11 +74,7 @@ export const LoginForm: React.FC = () => {
                 disabled={loginMutation.isPending}
               />
             </div>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={loginMutation.isPending}
-            >
+            <Button type="submit" className="w-full" disabled={loginMutation.isPending}>
               {loginMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign In
             </Button>
@@ -94,5 +90,5 @@ export const LoginForm: React.FC = () => {
         </CardContent>
       </Card>
     </div>
-  );
-};
+  )
+}
