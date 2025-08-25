@@ -9,14 +9,33 @@ import {
   deleteTransaction,
   getSpendingOverview,
 } from '../controller/transaction.controller';
+import { validateResource } from 'src/middleware/validatereq.middleare';
+import {
+  addTransactionSchema,
+  deleteTransactionSchema,
+  editTransactionSchema,
+  getTransactionSchema,
+} from 'src/validations/transaction.schema';
 
 const router = Router();
 
 router.route('/').get(verifyJWT, transactions);
 router.route('/spending-overview').get(verifyJWT, getSpendingOverview);
-router.route('/:id').get(verifyJWT, transaction);
-router.route('/').post(verifyJWT, addTransactions);
-router.route('/:id').put(verifyJWT, editTransaction);
-router.route('/:id').delete(verifyJWT, deleteTransaction);
+router
+  .route('/:id')
+  .get(verifyJWT, validateResource(getTransactionSchema), transaction);
+router
+  .route('/')
+  .post(verifyJWT, validateResource(addTransactionSchema), addTransactions);
+router
+  .route('/:id')
+  .put(verifyJWT, validateResource(editTransactionSchema), editTransaction);
+router
+  .route('/:id')
+  .delete(
+    verifyJWT,
+    validateResource(deleteTransactionSchema),
+    deleteTransaction,
+  );
 
 export default router;

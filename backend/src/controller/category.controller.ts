@@ -1,52 +1,46 @@
+import { Request, Response } from 'express';
 import { asyncHandler } from '../utils/asyncHandler';
+import { ApiResponse } from '../utils/ApiResponse';
 import { ApiError } from '../utils/ApiError';
 import { IUser } from '../models/user.model';
-import { ApiResponse } from '../utils/ApiResponse';
-import { Request } from 'express';
-import { Category } from '../models/category.model';
-import { validateRequiredFields } from '../utils/validateRequiredFields';
+import { CategoryService } from '../services/category.service';
+import { addCategorySchema } from '../validations/category.validation';
 
 const categories = asyncHandler(
-  async (req: Request & { user?: IUser }, res) => {
+  async (req: Request & { user?: IUser }, res: Response) => {
     const user = req.user;
 
     if (!user) {
       throw new ApiError(404, 'User does not exist');
     }
 
-    console.log('user', user);
+    const result = await CategoryService.getCategories(user._id as string);
 
-    const categories = await Category.find({ userId: user._id });
-    // const result = await Category.deleteMany({ userId: user._id });
-
-    if (!categories.length) {
-      throw new ApiError(404, 'No Categories found');
-    }
-
-    return res.status(200).json(new ApiResponse(200, categories));
+    return res
+      .status(200)
+      .json(new ApiResponse(200, result, 'Categories fetched successfully'));
   },
 );
 
 const addCategories = asyncHandler(
-  async (req: Request & { user?: IUser }, res) => {
+  async (req: Request & { user?: IUser }, res: Response) => {
     const user = req.user;
-    const { name } = req.body;
+
     if (!user) {
       throw new ApiError(404, 'User does not exist');
     }
-    if ([name].some((field) => field?.trim() === '')) {
-      throw new ApiError(400, 'All fields are required');
-    }
-    validateRequiredFields(req.body, ['name']);
 
-    const category = await Category.create({
-      name,
-      userId: user._id,
-    });
+    const parsedData = addCategorySchema.parse(req.body);
+
+    const category = await CategoryService.addCategory(
+      user._id as string,
+      parsedData.name,
+    );
 
     return res
       .status(200)
       .json(new ApiResponse(200, category, 'Category created successfully'));
   },
 );
+
 export { categories, addCategories };

@@ -10,7 +10,8 @@
     "start": "node dist/src/index.js",
     "lint": "eslint \"./**/*.js\"",
     "lint:fix": "eslint --fix \"./**/*.js\"",
-    "format": "prettier --write \"{src,test}/**/*.{js,ts,jsx,tsx,json,css,scss}\""
+    "format": "prettier --write \"{src,test}/**/*.{js,ts,jsx,tsx,json,css,scss}\"",
+    "prepare": "husky install"
   },
   "author": "Your Name",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.17.1",
     "multer": "^2.0.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "zod": "^4.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
@@ -35,6 +37,7 @@
     "@types/multer": "^2.0.0",
     "eslint": "^9.34.0",
     "globals": "^16.3.0",
+    "husky": "^9.1.7",
     "jiti": "^2.5.1",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
