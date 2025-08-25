@@ -1,4 +1,3 @@
-// src/services/category.service.ts
 import { CategoryRepository } from '../repositories/category.repositories';
 import { ApiError } from '../utils/ApiError';
 

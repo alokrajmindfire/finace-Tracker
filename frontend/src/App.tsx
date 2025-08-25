@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import { Layout } from './components/Layout';
-import Dashboard from './pages/Dashboard';
-import { LoginForm } from './components/auth/LoginForm';
-import { RegisterForm } from './components/auth/RegisterForm';
-import { Toaster } from "@/components/ui/sonner"
-import Transactions from './pages/Transactions';
-import CategoryPage from './pages/Category';
-import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from './components/ErrorFallBack';
-import NetworkIssue from './components/NetworkIssue';
+import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { ProtectedRoute } from './components/auth/ProtectedRoute'
+import { Layout } from './components/Layout'
+import Dashboard from './pages/Dashboard'
+import { LoginForm } from './components/auth/LoginForm'
+import { RegisterForm } from './components/auth/RegisterForm'
+import { Toaster } from '@/components/ui/sonner'
+import Transactions from './pages/Transactions'
+import CategoryPage from './pages/Category'
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from './components/ErrorFallBack'
+import NetworkIssue from './components/NetworkIssue'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -19,10 +19,10 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
     },
   },
-});
+})
 
 const AppRoutes: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth()
 
   return (
     <Routes>
@@ -43,15 +43,14 @@ const AppRoutes: React.FC = () => {
         }
       >
         <Route index element={<Dashboard />} />
-        <Route path='/transaction' element={<Transactions />} />
-        <Route path='/categories' element={<CategoryPage />} />
-        <Route path='/network-issue' element={<NetworkIssue />} />
+        <Route path="/transaction" element={<Transactions />} />
+        <Route path="/categories" element={<CategoryPage />} />
+        <Route path="/network-issue" element={<NetworkIssue />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-  );
-};
-
+  )
+}
 
 function App() {
   return (
@@ -59,16 +58,14 @@ function App() {
       <AuthProvider>
         <Router>
           {/* <NetworkIssue/> */}
-          <ErrorBoundary
-            FallbackComponent={ErrorFallback}
-          >
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <AppRoutes />
           </ErrorBoundary>
           <Toaster />
         </Router>
       </AuthProvider>
     </QueryClientProvider>
-  );
+  )
 }
 
-export default App;
+export default App

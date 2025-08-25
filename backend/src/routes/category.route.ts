@@ -2,8 +2,8 @@ import { Router } from 'express';
 
 import { verifyJWT } from '../middleware/auth.middleware';
 import { categories, addCategories } from '../controller/category.controller';
-import { validateResource } from 'src/middleware/validatereq.middleare';
-import { addCategorySchema } from 'src/validations/category.validation';
+import { validateResource } from '../middleware/req.middleware';
+import { addCategorySchema } from '../validations/category.validation';
 
 const router = Router();
 

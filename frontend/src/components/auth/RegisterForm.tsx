@@ -1,62 +1,69 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/contexts/AuthContext';
-import { authApi } from '@/lib/api';
-import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
-import type { AxiosError } from 'axios';
+import React, { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useAuth } from '@/contexts/AuthContext'
+import { authApi } from '@/lib/api'
+import { toast } from 'sonner'
+import { Loader2 } from 'lucide-react'
+import type { AxiosError } from 'axios'
 
 export const RegisterForm: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [fullName, setFullName] = useState('');
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [fullName, setFullName] = useState('')
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
   const registerMutation = useMutation({
-    mutationFn: ({ email, password, fullName }: { email: string; password: string; fullName: string }) =>
-      authApi.register(email, password, fullName),
+    mutationFn: ({
+      email,
+      password,
+      fullName,
+    }: {
+      email: string
+      password: string
+      fullName: string
+    }) => authApi.register(email, password, fullName),
     onSuccess: (user) => {
-      login(user);
-      toast.success('Registration successful!');
-      navigate('/');
+      login(user)
+      toast.success('Registration successful!')
+      navigate('/')
     },
     onError: (error: unknown) => {
       // console.log(error)
-      const err = error as AxiosError<{ message: string }>;
+      const err = error as AxiosError<{ message: string }>
       // console.log(err);
 
-      const message = err.response?.data?.message || 'Login failed';
-      toast.error(message);
+      const message = err.response?.data?.message || 'Login failed'
+      toast.error(message)
     },
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!email || !password || !confirmPassword || !fullName) {
-      toast.error('Please fill in all fields');
-      return;
+      toast.error('Please fill in all fields')
+      return
     }
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
+      toast.error('Passwords do not match')
+      return
     }
 
     if (password.length < 6) {
-      toast.error('Password must be at least 6 characters');
-      return;
+      toast.error('Password must be at least 6 characters')
+      return
     }
 
-    registerMutation.mutate({ email, password, fullName });
-  };
+    registerMutation.mutate({ email, password, fullName })
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -110,11 +117,7 @@ export const RegisterForm: React.FC = () => {
                 disabled={registerMutation.isPending}
               />
             </div>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={registerMutation.isPending}
-            >
+            <Button type="submit" className="w-full" disabled={registerMutation.isPending}>
               {registerMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Create Account
             </Button>
@@ -130,5 +133,5 @@ export const RegisterForm: React.FC = () => {
         </CardContent>
       </Card>
     </div>
-  );
-};
+  )
+}

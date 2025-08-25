@@ -9,13 +9,13 @@ import {
   deleteTransaction,
   getSpendingOverview,
 } from '../controller/transaction.controller';
-import { validateResource } from 'src/middleware/validatereq.middleare';
+import { validateResource } from '../middleware/req.middleware';
 import {
   addTransactionSchema,
   deleteTransactionSchema,
   editTransactionSchema,
   getTransactionSchema,
-} from 'src/validations/transaction.schema';
+} from '../validations/transaction.schema';
 
 const router = Router();
 
